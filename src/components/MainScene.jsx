@@ -12,6 +12,9 @@ import { useRef, useMemo, useEffect, useState, use } from "react";
 import { gsap } from "gsap";
 import * as THREE from "three";
 import SceneContent  from "./SceneContent";
+import { Cubo_1 } from "./Cubo_1";
+import { Cubo_1_blue } from "./Cubo_1_blue";
+import { Cubo_1_yellow } from "./Cubo_1_yellow";
 
 export default function MainScene() {
   const BodyRef = useRef();
@@ -122,7 +125,7 @@ export default function MainScene() {
           onClick={moveBoxLeft}
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
-          Move Box Right
+          Move box to Right
         </button>
       </div>
       <Canvas
@@ -133,9 +136,9 @@ export default function MainScene() {
       >
         <PerspectiveCamera
           makeDefault
-          fov={10}
-          rotation={[5, 5, 0]}
-          position={[0, 7, -50]}
+          fov={15}
+          rotation={[0, 0, 0]}
+          position={[0, 9, -45]}
         />
         <OrbitControls
           enableZoom={false}
@@ -143,10 +146,20 @@ export default function MainScene() {
           enableRotate={true}
         />
 
-        {/*  <Environment preset="city" /> */}
+          <ambientLight intensity={1} />
 
-        <spotLight
-          position={[2, 5, -25]}
+       <spotLight
+          position={[20, 5, 0]}
+          intensity={1500}
+          angle={0.5}
+          penumbra={1}
+          castShadow
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-bias={-0.00005}
+        />
+           <spotLight
+          position={[-20, 5, 0]}
           intensity={1500}
           angle={0.5}
           penumbra={1}
@@ -156,7 +169,7 @@ export default function MainScene() {
           shadow-bias={-0.00005}
         />
         <spotLight
-          position={[-2, 5, -25]}
+          position={[-2, 5, -20]}
           intensity={1500}
           angle={0.5}
           penumbra={1}
@@ -165,6 +178,9 @@ export default function MainScene() {
           shadow-mapSize-height={2048}
           shadow-bias={-0.00005}
         />
+      <Cubo_1  scale={[0.01,0.01,0.01]} /> 
+      <Cubo_1_blue  scale={[0.01,0.01,0.01]} position={[6,-1.1,-1]} />
+      <Cubo_1_yellow  scale={[0.01,0.01,0.01]} position={[7.5,-1.1,-3]} />
         <RoundedBox
           castShadow
           position={[0, 0, 0]}
