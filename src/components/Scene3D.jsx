@@ -6,7 +6,6 @@ import {
   OrbitControls,
   MeshReflectorMaterial,
   Box,
-  Sphere,
   Torus,
   Cone,
   Cylinder,
@@ -31,7 +30,7 @@ function AnimatedBox(props) {
       meshRef.current.rotation.y += 0.01;
     }
   });
-
+*/
   return (
     <Box
       ref={meshRef}
@@ -48,6 +47,7 @@ function AnimatedBox(props) {
       />
     </Box>
   );
+  /*
 }
 
 // Esfera flotante simple
@@ -169,14 +169,11 @@ function SimpleDodecahedron(props) {
 /* Funcion rotar el escudo */
 export function RotatingEscudo({ rotating, ...props }) {
   const ref = useRef();
-
   useFrame((state, delta) => {
     if (ref.current && rotating) {
       ref.current.rotation.y += delta * 0.8;
     }
   });
- 
-
 
   return (
     <group ref={ref} {...props}>
@@ -222,15 +219,10 @@ export default function Scene3D() {
     window.addEventListener("wheel", handleWheel);
     return () => window.removeEventListener("wheel", handleWheel);
   }, []);
-  const cameraRef = useRef();
 
- 
   return (
     <div className="w-full h-screen bg-gradient-to-b from-purple-900 via-blue-900 to-black">
-      <Canvas
-        camera={{ position: [0, 0, 12], fov: 90 }}
-        onCreated={(state) => (cameraRef.current = state.camera)}
-      >
+      <Canvas camera={{ position: [0, 0, 12], fov: 90 }}>
         {/*  <Environment preset="night" /> */}
 
         {/* Iluminación básica pero efectiva */}
@@ -288,7 +280,7 @@ export default function Scene3D() {
           dampingFactor={0.05}
           autoRotate={false}
           autoRotateSpeed={0.5}
-        /> 
+        />
         <mesh rotation={[-Math.PI / 0.1, 0, 0]} position={[0, 0, 0]}>
           <planeGeometry args={[50, 50]} />
           <MeshReflectorMaterial
