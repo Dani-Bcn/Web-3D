@@ -18,8 +18,8 @@ export default function MainScene() {
   const [rotate, setRotate] = useState(true);
   console.log(rotate);
  
-  const imageTexture = useLoader(THREE.TextureLoader, "/SF6_back.png");
-    const imageTexture2 = useLoader(THREE.TextureLoader, "/SF6_back_2.png");
+  const imageTexture = useLoader(THREE.TextureLoader, "/public/SF6_back.png");
+    const imageTexture2 = useLoader(THREE.TextureLoader, "/public/SF6_back_2.png");
 
 
   const gradientTexture = useMemo(() => {
