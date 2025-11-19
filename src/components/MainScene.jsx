@@ -11,19 +11,18 @@ import {
 import { useRef, useMemo, useEffect, useState, use } from "react";
 import { gsap } from "gsap";
 import * as THREE from "three";
-import SceneContent  from "./SceneContent";
+import SceneContent from "./SceneContent";
 import { Cubo_1 } from "./Cubo_1";
 import { Cubo_1_blue } from "./Cubo_1_blue";
 import { Cubo_1_yellow } from "./Cubo_1_yellow";
+import Draggable from "./Draggable";
+import { Logo_SF6 } from "./Logo_SF6";
 
 export default function MainScene() {
   const BodyRef = useRef();
   const boxRef = useRef();
   const [rotate, setRotate] = useState(true);
   console.log(rotate);
- 
-   
-
 
   const gradientTexture = useMemo(() => {
     if (typeof window === "undefined") return null;
@@ -145,10 +144,8 @@ export default function MainScene() {
           enablePan={true}
           enableRotate={true}
         />
-
-          <ambientLight intensity={1} />
-
-       <spotLight
+        <ambientLight intensity={1} />
+        <spotLight
           position={[20, 5, 0]}
           intensity={1500}
           angle={0.5}
@@ -158,7 +155,7 @@ export default function MainScene() {
           shadow-mapSize-height={2048}
           shadow-bias={-0.00005}
         />
-           <spotLight
+        <spotLight
           position={[-20, 5, 0]}
           intensity={1500}
           angle={0.5}
@@ -178,13 +175,14 @@ export default function MainScene() {
           shadow-mapSize-height={2048}
           shadow-bias={-0.00005}
         />
-      <Cubo_1  scale={[0.01,0.01,0.01]} /> 
-      <Cubo_1_blue  scale={[0.01,0.01,0.01]} position={[6,-1.1,-1]} />
-      <Cubo_1_yellow  scale={[0.01,0.01,0.01]} position={[7.5,-1.1,-3]} />
-        <RoundedBox
+        <Logo_SF6  ref={boxRef} scale={[0.007,0.007,0.007]} position={[0,2,-5]} rotation={[0,6.3,0]}/>
+        <Cubo_1 scale={[0.01, 0.01, 0.01]} position={[4.5, -1.1, -2]} />
+        <Cubo_1_blue scale={[0.01, 0.01, 0.01]} position={[6, -1.1, -1]} />
+        <Cubo_1_yellow scale={[0.01, 0.01, 0.01]} position={[7.5, -1.1, -3]} />
+      {/*   <RoundedBox
           castShadow
           position={[0, 0, 0]}
-          ref={boxRef}
+         
           args={[2, 2, 2]}
           radius={0.1} // radio de la esquina
           smoothness={20} // suavizado
@@ -193,10 +191,14 @@ export default function MainScene() {
             color="#102050"
             metalness={0.6}
             roughness={0.1}
-          />
-        </RoundedBox>
-        <SceneContent/>
-   {/*      <mesh
+          /> 
+        </RoundedBox>*/}
+        {/* Coger objetos mouse 
+           <Draggable>  
+       
+        </Draggable> */}
+        <SceneContent />
+        {/*      <mesh
           receiveShadow
           castShadow
           rotation={[-Math.PI / -1, 0, 3.15]}
