@@ -1,6 +1,6 @@
 "use client";
 import { CanvasTexture } from "three";
-import { Canvas,useLoader } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import {
   OrbitControls,
   PerspectiveCamera,
@@ -11,6 +11,7 @@ import {
 import { useRef, useMemo, useEffect, useState, use } from "react";
 import { gsap } from "gsap";
 import * as THREE from "three";
+import SceneContent  from "./SceneContent";
 
 export default function MainScene() {
   const BodyRef = useRef();
@@ -18,8 +19,7 @@ export default function MainScene() {
   const [rotate, setRotate] = useState(true);
   console.log(rotate);
  
-  const imageTexture = useLoader(THREE.TextureLoader, "/public/SF6_back.png");
-    const imageTexture2 = useLoader(THREE.TextureLoader, "/public/SF6_back_2.png");
+   
 
 
   const gradientTexture = useMemo(() => {
@@ -131,14 +131,19 @@ export default function MainScene() {
           type: THREE.PCFSoftShadowMap,
         }}
       >
-        <PerspectiveCamera makeDefault fov={10} rotation={[5,5,0]} position={[0, 7, -50]} />
+        <PerspectiveCamera
+          makeDefault
+          fov={10}
+          rotation={[5, 5, 0]}
+          position={[0, 7, -50]}
+        />
         <OrbitControls
           enableZoom={false}
           enablePan={true}
           enableRotate={true}
         />
-       
-       {/*  <Environment preset="city" /> */}
+
+        {/*  <Environment preset="city" /> */}
 
         <spotLight
           position={[2, 5, -25]}
@@ -150,7 +155,7 @@ export default function MainScene() {
           shadow-mapSize-height={2048}
           shadow-bias={-0.00005}
         />
-          <spotLight
+        <spotLight
           position={[-2, 5, -25]}
           intensity={1500}
           angle={0.5}
@@ -174,14 +179,15 @@ export default function MainScene() {
             roughness={0.1}
           />
         </RoundedBox>
-        <mesh
+        <SceneContent/>
+   {/*      <mesh
           receiveShadow
           castShadow
           rotation={[-Math.PI / -1, 0, 3.15]}
           position={[0, 1.2, 2]}
         >
           <planeGeometry args={[25, 16]} />
-          <MeshReflectorMaterial          
+          <MeshReflectorMaterial
             blur={[350, 250]} // Menos blur → reflejos más definidos
             resolution={2048}
             mixBlur={100} // Reduce cuánto mezcla el blur con el reflejo
@@ -194,7 +200,7 @@ export default function MainScene() {
             metalness={0.1} // Mucho más metal, más brillo
           />
         </mesh>
-        <mesh
+        <mesh 
           receiveShadow
           castShadow
           rotation={[-Math.PI / 2, 0, 3.1]}
@@ -210,10 +216,10 @@ export default function MainScene() {
             depthScale={1.2} // Controla deformación; más bajo = reflejo más limpio
             minDepthThreshold={0.4}
             maxDepthThreshold={1.8}
-           map={imageTexture2}
+            map={imageTexture2}
             metalness={0.2} // Mucho más metal, más brillo
           />
-        </mesh>
+        </mesh>*/}
       </Canvas>
     </div>
   );
