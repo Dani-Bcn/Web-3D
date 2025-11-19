@@ -17,6 +17,7 @@ import {
   Environment,
 } from "@react-three/drei";
 import { useRef, useState, useMemo, useEffect } from "react";
+import { Model } from "./SF6_back";
 
 /* // Componente de caja animada simple
 function AnimatedBox(props) {

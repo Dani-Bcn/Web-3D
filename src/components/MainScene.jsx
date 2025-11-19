@@ -1,6 +1,6 @@
 "use client";
 import { CanvasTexture } from "three";
-import { Canvas } from "@react-three/fiber";
+import { Canvas,useLoader } from "@react-three/fiber";
 import {
   OrbitControls,
   PerspectiveCamera,
@@ -8,14 +8,19 @@ import {
   MeshReflectorMaterial,
   Environment,
 } from "@react-three/drei";
-import { useRef, useMemo, useEffect, useState } from "react";
+import { useRef, useMemo, useEffect, useState, use } from "react";
 import { gsap } from "gsap";
+import * as THREE from "three";
 
 export default function MainScene() {
   const BodyRef = useRef();
   const boxRef = useRef();
-   const [rotate, setRotate] = useState(true);
-   console.log(rotate)
+  const [rotate, setRotate] = useState(true);
+  console.log(rotate);
+ 
+  const imageTexture = useLoader(THREE.TextureLoader, "/SF6_back.png");
+    const imageTexture2 = useLoader(THREE.TextureLoader, "/SF6_back_2.png");
+
 
   const gradientTexture = useMemo(() => {
     if (typeof window === "undefined") return null;
@@ -31,8 +36,8 @@ export default function MainScene() {
       0,
       0
     );
-    gradient.addColorStop(0, "lch(30.92% 97.1 301.54)");
-    gradient.addColorStop(1, "oklch(43.919% 0.17499 13.805)");
+    gradient.addColorStop(0, "orange");
+    gradient.addColorStop(1, "blue");
 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -58,7 +63,7 @@ export default function MainScene() {
         ease: "power1.inOut",
       });
     }
-  }; 
+  };
 
   {
     !rotate
@@ -109,7 +114,7 @@ export default function MainScene() {
         </button>
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={()=>setRotate(!rotate)}
+          onClick={() => setRotate(!rotate)}
         >
           Rotate or move
         </button>
@@ -120,18 +125,43 @@ export default function MainScene() {
           Move Box Right
         </button>
       </div>
-      <Canvas className="bg-red-200 z-0" shadows>
-        <PerspectiveCamera makeDefault fov={10} position={[0, 2, -50]} />
+      <Canvas
+        className="bg-red-200 z-0"
+        shadows={{
+          type: THREE.PCFSoftShadowMap,
+        }}
+      >
+        <PerspectiveCamera makeDefault fov={10} rotation={[5,5,0]} position={[0, 7, -50]} />
         <OrbitControls
           enableZoom={false}
-          enablePan={false}
+          enablePan={true}
           enableRotate={true}
         />
-        <Environment preset="city" />
-      
-        <spotLight position={[-2, 5, 20]} intensity={5} castShadow receiveShadow />
-        <spotLight position={[2, 5, 20]} intensity={5} castShadow receiveShadow />
+       
+       {/*  <Environment preset="city" /> */}
+
+        <spotLight
+          position={[2, 5, -25]}
+          intensity={1500}
+          angle={0.5}
+          penumbra={1}
+          castShadow
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-bias={-0.00005}
+        />
+          <spotLight
+          position={[-2, 5, -25]}
+          intensity={1500}
+          angle={0.5}
+          penumbra={1}
+          castShadow
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-bias={-0.00005}
+        />
         <RoundedBox
+          castShadow
           position={[0, 0, 0]}
           ref={boxRef}
           args={[2, 2, 2]}
@@ -144,45 +174,44 @@ export default function MainScene() {
             roughness={0.1}
           />
         </RoundedBox>
-
         <mesh
           receiveShadow
           castShadow
-          rotation={[-Math.PI / 1, 0, 0]}
-          position={[0, 0, 2]}
+          rotation={[-Math.PI / -1, 0, 3.15]}
+          position={[0, 1.2, 2]}
         >
-          <planeGeometry args={[500, 500]} />
-          <MeshReflectorMaterial
+          <planeGeometry args={[25, 16]} />
+          <MeshReflectorMaterial          
             blur={[350, 250]} // Menos blur → reflejos más definidos
             resolution={2048}
-            mixBlur={2} // Reduce cuánto mezcla el blur con el reflejo
-            mixStrength={3} // Aumenta la fuerza del reflejo
-            roughness={2} // Superficie casi pulida
+            mixBlur={100} // Reduce cuánto mezcla el blur con el reflejo
+            mixStrength={5} // Aumenta la fuerza del reflejo
+            roughness={1} // Superficie casi pulida
             depthScale={1.2} // Controla deformación; más bajo = reflejo más limpio
-            minDepthThreshold={1.2}
-            maxDepthThreshold={1.8}
-            map={gradientTexture}
-            metalness={0.2} // Mucho más metal, más brillo
+            minDepthThreshold={1.8}
+            maxDepthThreshold={2.5}
+            map={imageTexture}
+            metalness={0.1} // Mucho más metal, más brillo
           />
         </mesh>
         <mesh
           receiveShadow
           castShadow
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, -0.999, 2]}
+          rotation={[-Math.PI / 2, 0, 3.1]}
+          position={[0, -1, -5]}
         >
-          <planeGeometry args={[500, 500]} />
+          <planeGeometry args={[25, 20]} />
           <MeshReflectorMaterial
-            blur={[350, 50]} // Menos blur → reflejos más definidos
+            blur={[550, 250]} // Menos blur → reflejos más definidos
             resolution={2048}
-            mixBlur={8} // Reduce cuánto mezcla el blur con el reflejo
-            mixStrength={9} // Aumenta la fuerza del reflejo
-            roughness={0.7} // Superficie casi pulida
+            mixBlur={5} // Reduce cuánto mezcla el blur con el reflejo
+            mixStrength={10} // Aumenta la fuerza del reflejo
+            roughness={0.9} // Superficie casi pulida
             depthScale={1.2} // Controla deformación; más bajo = reflejo más limpio
             minDepthThreshold={0.4}
             maxDepthThreshold={1.8}
-            map={gradientTexture}
-            metalness={0.9} // Mucho más metal, más brillo
+           map={imageTexture2}
+            metalness={0.2} // Mucho más metal, más brillo
           />
         </mesh>
       </Canvas>
