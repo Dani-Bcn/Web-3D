@@ -1,6 +1,6 @@
 "use client";
 import { CanvasTexture } from "three";
-import { Canvas, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import {
   OrbitControls,
   PerspectiveCamera,
@@ -8,7 +8,7 @@ import {
   MeshReflectorMaterial,
   Environment,
 } from "@react-three/drei";
-import { useRef, useMemo, useEffect, useState, use } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import * as THREE from "three";
 import SceneContent from "./SceneContent";
@@ -66,6 +66,15 @@ export default function MainScene() {
       });
     }
   };
+  const rotateBoxLeft = () => {
+    if (boxRef.current) {
+      gsap.to(boxRef.current.rotation, {
+        x: boxRef.current.rotation.x - 2,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+    }
+  };
 
   {
     !rotate
@@ -89,9 +98,7 @@ export default function MainScene() {
       : useEffect(() => {
           const handleWheelPosition = (e) => {
             if (!boxRef.current) return;
-
             const speed = 0.0157; // Sensibilidad del movimiento Z
-
             // Animar movimiento Z
             gsap.to(boxRef.current.position, {
               z: boxRef.current.position.z + e.deltaY * speed,
@@ -104,6 +111,10 @@ export default function MainScene() {
           return () => window.removeEventListener("wheel", handleWheelPosition);
         }, [rotate]);
   }
+  const controlsRef = useRef();
+
+  const limitLeft = -5;
+  const limitRight = 5;
 
   return (
     <div className="w-screen h-screen flex justify-center" ref={BodyRef}>
@@ -113,6 +124,20 @@ export default function MainScene() {
           onClick={moveBoxRight}
         >
           Move box to left
+        </button>
+        <div className="text-white flex flex-col items-center">
+          <div>Arriba</div>
+          <div>Abajo</div>
+          <div>
+            <div>Derecha</div>
+            <div>Izquierda</div>
+          </div>
+        </div>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={() => rotateBoxLeft()}
+        >
+          rotate ⋎
         </button>
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -133,6 +158,7 @@ export default function MainScene() {
           type: THREE.PCFSoftShadowMap,
         }}
       >
+       
         <PerspectiveCamera
           makeDefault
           fov={15}
@@ -140,9 +166,16 @@ export default function MainScene() {
           position={[0, 9, -45]}
         />
         <OrbitControls
+          ref={controlsRef}
           enableZoom={false}
           enablePan={true}
           enableRotate={true}
+          minDistance={10}
+          maxDistance={50}
+          maxPolarAngle={Math.PI / 2.3}
+          minPolarAngle={Math.PI / 4}
+          minAzimuthAngle={-Math.PI / -1.02}
+          maxAzimuthAngle={Math.PI / -1.02}
         />
         <ambientLight intensity={1} />
         <spotLight
@@ -175,11 +208,17 @@ export default function MainScene() {
           shadow-mapSize-height={2048}
           shadow-bias={-0.00005}
         />
-        <Logo_SF6  ref={boxRef} scale={[0.007,0.007,0.007]} position={[0,2,-5]} rotation={[0,6.3,0]}/>
+        <Logo_SF6
+          ref={boxRef}
+          scale={[0.007, 0.007, 0.007]}
+          position={[0, 2, -5]}
+          rotation={[0, 6.3, 0]}
+        />
+
         <Cubo_1 scale={[0.01, 0.01, 0.01]} position={[4.5, -1.1, -2]} />
         <Cubo_1_blue scale={[0.01, 0.01, 0.01]} position={[6, -1.1, -1]} />
         <Cubo_1_yellow scale={[0.01, 0.01, 0.01]} position={[7.5, -1.1, -3]} />
-      {/*   <RoundedBox
+        {/*   <RoundedBox
           castShadow
           position={[0, 0, 0]}
          
