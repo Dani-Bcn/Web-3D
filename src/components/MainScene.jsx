@@ -118,36 +118,32 @@ export default function MainScene() {
 
   return (
     <div className="w-screen h-screen flex justify-center" ref={BodyRef}>
-      <div className="absolute top-4 z-10 w-full flex  justify-around">
+      <div className="absolute   top-4 z-10 w-full flex  justify-around">
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="bg-linear-to-r duration-250 from-green-600/25 cursor-pointer border h-12 my-0.5 border-black hover:border-red-300 backdrop-blur-[0.5px] to to-blue-600/40 text-white px-4  rounded"
           onClick={moveBoxRight}
         >
           Move box to left
         </button>
-        <div className="text-white flex flex-col items-center">
-          <div>Arriba</div>
-          <div>Abajo</div>
-          <div>
-            <div>Derecha</div>
-            <div>Izquierda</div>
-          </div>
-        </div>
+     
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+                 className="bg-linear-to-r duration-250 from-green-600/25 cursor-pointer border h-12 my-0.5 border-black hover:border-red-300 backdrop-blur-[0.5px] to to-blue-600/40 text-white px-4  rounded"
+
           onClick={() => rotateBoxLeft()}
         >
           rotate ⋎
         </button>
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+                className="bg-linear-to-r duration-250 from-green-600/25 cursor-pointer border h-12 my-0.5 border-black hover:border-red-300 backdrop-blur-[0.5px] to to-blue-600/40 text-white px-4  rounded"
+
           onClick={() => setRotate(!rotate)}
         >
           Rotate or move
         </button>
         <button
           onClick={moveBoxLeft}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+                  className="bg-linear-to-r duration-250 from-green-600/25 cursor-pointer border h-12 my-0.5 border-black hover:border-red-300 backdrop-blur-[0.5px] to to-blue-600/40 text-white px-4  rounded"
+
         >
           Move box to Right
         </button>
